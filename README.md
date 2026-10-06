@@ -6,6 +6,16 @@ When rehearsing with in-ear monitors, direct modelers, and electronic drums, ful
 
 BandCut uses a **dual-stage RMS amplitude algorithm** to automatically filter out chatter, isolate full-band song takes, draw an interactive visual waveform, and batch-export labeled tracks directly to high-quality MP3s via FFmpeg.
 
+## Screenshots
+
+### Session review and track selection
+
+![BandCut session review](assets/ss/Screenshot%202026-10-06%20at%2017.35.55.png)
+
+### Precision waveform editing at 128× zoom
+
+![BandCut precision waveform](assets/ss/Screenshot%202026-10-06%20at%2017.34.24.png)
+
 ---
 
 ## 🌟 Features
