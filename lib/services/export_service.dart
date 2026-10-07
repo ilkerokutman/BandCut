@@ -7,24 +7,14 @@ import '../models/track_region.dart';
 /// Slices detected regions out of the source WAV via FFmpeg and encodes
 /// them as high-quality VBR MP3s (libmp3lame -q:a 2).
 class ExportService {
-  /// Resolves the ffmpeg binary, checking PATH and common Homebrew paths.
+  /// Resolves the FFmpeg executable bundled beside the application binary.
   static Future<String> findFfmpeg() async {
-    for (final candidate in [
+    final ffmpeg = p.join(
+      File(Platform.resolvedExecutable).parent.path,
       'ffmpeg',
-      '/opt/homebrew/bin/ffmpeg',
-      '/usr/local/bin/ffmpeg',
-    ]) {
-      try {
-        final result = await Process.run(
-          candidate == 'ffmpeg' ? 'which' : 'test',
-          candidate == 'ffmpeg' ? ['ffmpeg'] : ['-x', candidate],
-        );
-        if (result.exitCode == 0) return candidate;
-      } on ProcessException {
-        continue;
-      }
-    }
-    throw StateError('FFmpeg not found. Install it with: brew install ffmpeg');
+    );
+    if (await File(ffmpeg).exists()) return ffmpeg;
+    throw StateError('The bundled FFmpeg executable is missing.');
   }
 
   static String slugify(String value, {String fallback = 'track'}) {

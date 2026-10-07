@@ -592,7 +592,9 @@ class _HomeScreenState extends State<HomeScreen> {
             'BandCut turns long rehearsal WAV recordings into named MP3 '
             'tracks. Open a WAV, review the detected regions, scrub and zoom '
             'the waveform, fine-tune track boundaries, choose which tracks '
-            'to export, then export the session as individual MP3 files.',
+            'to export, then export the session as individual MP3 files.\n\n'
+            'This software uses FFmpeg under the LGPL v2.1 or later and LAME '
+            'under the LGPL v2.0 or later.',
           ),
         ),
         actions: [

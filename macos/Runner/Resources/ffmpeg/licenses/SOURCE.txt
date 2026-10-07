@@ -1,0 +1,17 @@
+FFmpeg 8.1.2
+Source: https://ffmpeg.org/releases/ffmpeg-8.1.2.tar.xz
+SHA256: 464beb5e7bf0c311e68b45ae2f04e9cc2af88851abb4082231742a74d97b524c
+License: LGPL-2.1-or-later
+
+LAME 3.100
+Source: https://downloads.sourceforge.net/project/lame/lame/3.100/lame-3.100.tar.gz
+SHA256: ddfe36cab873794038ae2c1210557ad34857a4b6bdc515785d1da9e175b1da1e
+License: LGPL-2.0-or-later
+
+The universal macOS executable is built from these unmodified sources with:
+
+  macos/build_ffmpeg.sh
+
+The build disables GPL, nonfree, and version 3 components. It enables only the
+file protocol, WAV demuxing, PCM decoders, LAME MP3 encoding, MP3 muxing, and
+audio resampling required by BandCut.

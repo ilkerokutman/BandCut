@@ -26,7 +26,7 @@ BandCut uses a **dual-stage RMS amplitude algorithm** to automatically filter ou
 * **Audio Preview & Scrubbing:** Click or click-drag with 100 ms precision to audit cut boundaries before export via `just_audio`.
 * **Track Editing:** Rename, add, delete, include/exclude, and fine-tune start/end boundaries directly in the session UI.
 * **False Start Rejection:** Automatically discards brief audio bursts, instrument checks, and false starts under 40 seconds.
-* **Batch MP3 Export:** Non-destructive slicing and high-quality VBR encoding (`libmp3lame`) powered by an external FFmpeg engine.
+* **Batch MP3 Export:** Non-destructive slicing and high-quality VBR encoding (`libmp3lame`) powered by the bundled universal FFmpeg engine.
 
 ---
 
@@ -52,10 +52,8 @@ Ensure your macOS environment has the following installed:
    ```bash
    xcode-select --install
    ```
-3. **FFmpeg** (Required for MP3 encoding and audio slicing)
-   ```bash
-   brew install ffmpeg
-   ```
+
+FFmpeg is bundled with BandCut; users do not need to install it separately.
 
 ---
 
@@ -79,7 +77,7 @@ flutter build macos --release
 Your compiled application bundle will be located at:
 `build/macos/Build/Products/Release/BandCut.app`
 
-> **Note:** The app sandbox is disabled in `macos/Runner/*.entitlements` so BandCut can spawn the FFmpeg subprocess and read/write arbitrary user-selected files. Re-enable the sandbox before distributing via the App Store (you would then need to bundle FFmpeg inside the app).
+> BandCut is sandboxed for Mac App Store distribution. WAV input and MP3 output access is granted only through user-selected file and directory pickers.
 
 ---
 
@@ -101,4 +99,9 @@ Your compiled application bundle will be located at:
 
 ## 📄 License
 
-Distributed under the MIT License. See `LICENSE` for details.
+BandCut is distributed under the MIT License. See `LICENSE` for details.
+
+The bundled FFmpeg executable is licensed under LGPL v2.1 or later and LAME
+is licensed under LGPL v2.0 or later. Corresponding license and source
+provenance files are included with the bundled executable under
+`macos/Runner/Resources/ffmpeg/licenses`.
