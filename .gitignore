@@ -49,3 +49,6 @@ app.*.map.json
 
 # Local rehearsal recordings
 /assets/sample/
+
+# Temporary local files
+/_tmp/

@@ -99,7 +99,7 @@ Your compiled application bundle will be located at:
 
 ## 📄 License
 
-BandCut is distributed under the MIT License. See `LICENSE` for details.
+BandCut is distributed under the MIT License. See `LICENSE` for details. Its privacy practices are described in [`PRIVACY.md`](PRIVACY.md).
 
 The bundled FFmpeg executable is licensed under LGPL v2.1 or later and LAME
 is licensed under LGPL v2.0 or later. Corresponding license and source
