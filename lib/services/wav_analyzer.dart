@@ -18,6 +18,9 @@ class WavAnalyzer {
   /// Quiet gaps shorter than this inside a take are bridged.
   static const Duration maxGap = Duration(seconds: 8);
 
+  /// Optional padding added around each detected take when enabled.
+  static const Duration boundaryGap = Duration(seconds: 1);
+
   /// Number of points emitted for waveform rendering.
   static const int waveformPoints = 64000;
 
@@ -30,11 +33,17 @@ class WavAnalyzer {
       path: file.path,
       silenceThresholdDb: settings.silenceThresholdDb,
       minimumTrackDurationSeconds: settings.minimumTrackDuration.inSeconds,
+      leaveGaps: settings.leaveGaps,
     ));
   }
 
   static Future<AnalysisResult> _analyzeInIsolate(
-    ({String path, double silenceThresholdDb, int minimumTrackDurationSeconds})
+    ({
+      String path,
+      double silenceThresholdDb,
+      int minimumTrackDurationSeconds,
+      bool leaveGaps,
+    })
     request,
   ) async {
     final raf = await File(request.path).open();
@@ -48,6 +57,8 @@ class WavAnalyzer {
         minimumTrackDuration: Duration(
           seconds: request.minimumTrackDurationSeconds,
         ),
+        leaveGaps: request.leaveGaps,
+        totalDuration: header.duration,
       );
       return AnalysisResult(
         sampleRate: header.sampleRate,
@@ -219,6 +230,8 @@ class WavAnalyzer {
     Duration window, {
     required double silenceThresholdDb,
     required Duration minimumTrackDuration,
+    required Duration totalDuration,
+    bool leaveGaps = false,
   }) {
     final loudNorm = _normalize(pow(10, silenceThresholdDb / 20).toDouble());
     final maxGapWindows = maxGap.inMilliseconds ~/ window.inMilliseconds;
@@ -247,11 +260,16 @@ class WavAnalyzer {
     return [
       for (final (s, e) in regions)
         if (e - s >= minWindows)
-          TrackRegion(
-            start: window * s,
-            end: window * e,
-            name: 'Take ${index++}',
-          ),
+          () {
+            var start = window * s;
+            var end = window * e;
+            if (leaveGaps) {
+              start = start > boundaryGap ? start - boundaryGap : Duration.zero;
+              end = end + boundaryGap;
+              if (end > totalDuration) end = totalDuration;
+            }
+            return TrackRegion(start: start, end: end, name: 'Take ${index++}');
+          }(),
     ];
   }
 }

@@ -6,12 +6,14 @@ void main() {
     const settings = AnalysisSettings(
       silenceThresholdDb: -30,
       minimumTrackDuration: Duration(seconds: 75),
+      leaveGaps: true,
     );
 
     final restored = AnalysisSettings.fromJson(settings.toJson());
 
     expect(restored.silenceThresholdDb, -30);
     expect(restored.minimumTrackDuration, const Duration(seconds: 75));
+    expect(restored.leaveGaps, isTrue);
   });
 
   test('defaults match the original detection values', () {
@@ -20,5 +22,15 @@ void main() {
       AnalysisSettings.defaults.minimumTrackDuration,
       const Duration(seconds: 40),
     );
+    expect(AnalysisSettings.defaults.leaveGaps, isFalse);
+  });
+
+  test('older saved settings without the flag default to no gaps', () {
+    final restored = AnalysisSettings.fromJson({
+      'silenceThresholdDb': -22,
+      'minimumTrackDurationSeconds': 40,
+    });
+
+    expect(restored.leaveGaps, isFalse);
   });
 }

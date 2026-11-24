@@ -474,6 +474,7 @@ class _HomeScreenState extends State<HomeScreen> {
         .minimumTrackDuration
         .inSeconds
         .toDouble();
+    var leaveGaps = _analysisSettings.leaveGaps;
     final settings = await showDialog<AnalysisSettings>(
       context: context,
       builder: (context) => StatefulBuilder(
@@ -513,6 +514,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     onChanged: (value) =>
                         setDialogState(() => minimumDurationSeconds = value),
                   ),
+                  const SizedBox(height: 8),
+                  SwitchListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text('Leave gaps'),
+                    subtitle: const Text(
+                      'Add 1 second before and after each detected track',
+                    ),
+                    value: leaveGaps,
+                    onChanged: (value) =>
+                        setDialogState(() => leaveGaps = value),
+                  ),
                 ],
               ),
             ),
@@ -530,6 +542,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   minimumTrackDuration: Duration(
                     seconds: minimumDurationSeconds.round(),
                   ),
+                  leaveGaps: leaveGaps,
                 ),
               ),
               child: const Text('Save'),
